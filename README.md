@@ -1,5 +1,10 @@
 # Vue 3 + TypeScript + Vite
 
+[![Build status][build]][build-url]
+
+[build]: https://img.shields.io/github/actions/workflow/status/MollyLin/scheduled-maintenance-report-for-github/action.yml?branch=main
+[build-url]: https://github.com/MollyLin/scheduled-maintenance-report-for-github/actions
+
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
 ## Recommended IDE Setup
