@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import eslintPlugin from "vite-plugin-eslint"
+import eslintPlugin from 'vite-plugin-eslint'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -8,5 +8,5 @@ export default defineConfig({
     vue(),
     eslintPlugin({ cache: false })
   ],
-  base: 'scheduled-maintenance-report-for-github',
+  base: 'scheduled-maintenance-report-for-github'
 })

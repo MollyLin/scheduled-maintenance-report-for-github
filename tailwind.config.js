@@ -5,8 +5,7 @@ export default {
     './src/**/*.{vue,js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {},
+    extend: {}
   },
-  plugins: [import('daisyui')],
+  plugins: [import('daisyui')]
 }
-
