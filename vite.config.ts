@@ -6,7 +6,7 @@ import eslintPlugin from 'vite-plugin-eslint'
 export default defineConfig({
   plugins: [
     vue(),
-    eslintPlugin({ cache: false })
+    eslintPlugin()
   ],
   base: 'scheduled-maintenance-report-for-github'
 })
