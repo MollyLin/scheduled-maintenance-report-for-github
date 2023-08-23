@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="navbar bg-neutral">
+  <div class="sticky top-0 navbar bg-neutral">
     <div class="flex-1">
       <a class="btn btn-ghost normal-case text-xl">Demo</a>
     </div>
