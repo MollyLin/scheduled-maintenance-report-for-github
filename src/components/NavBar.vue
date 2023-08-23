@@ -1,21 +1,15 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="navbar bg-base-100">
+  <div class="navbar bg-neutral">
     <div class="flex-1">
-      <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
+      <a class="btn btn-ghost normal-case text-xl">Demo</a>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal px-1">
-        <li><a>Link</a></li>
-        <li>
-          <details>
-            <summary>Parent</summary>
-            <ul class="p-2 bg-base-100">
-              <li><a>Link 1</a></li>
-              <li><a>Link 2</a></li>
-            </ul>
-          </details>
+        <li><a href="https://github.com/">GitHub.com</a></li>
+        <li class="text-warning">
+          <a href="https://www.githubstatus.com/">Status</a>
         </li>
       </ul>
     </div>
