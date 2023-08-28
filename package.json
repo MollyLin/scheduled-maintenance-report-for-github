@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "format:fix": "prettier --write './**/*.{css,scss,md,mdx,json}'"
+    "format:fix": "prettier . --write"
   },
   "dependencies": {
     "vue": "^3.3.4"

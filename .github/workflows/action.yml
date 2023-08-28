@@ -5,10 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Vue
     steps:
-    - uses: actions/checkout@v2
-    - id: Build-Vue
-      uses: hotrungnhan/VuePagesAction@1.0.1
-      with:
-        username: 'MollyLin'
-        reponame: 'scheduled-maintenance-report-for-github'
-        token: ${{ secrets.GH_TOKEN }} # Leave this line unchanged
+      - uses: actions/checkout@v2
+      - id: Build-Vue
+        uses: hotrungnhan/VuePagesAction@1.0.1
+        with:
+          username: 'MollyLin'
+          reponame: 'scheduled-maintenance-report-for-github'
+          token: ${{ secrets.GH_TOKEN }} # Leave this line unchanged
