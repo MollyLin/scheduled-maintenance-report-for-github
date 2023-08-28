@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+
+const renderMaintainInfo = ref<ScheduledMaintenance[]>([]);
+const activeId = '3ktldkb3r6f8';
 
 function http<T>(request: RequestInfo): Promise<T> {
   return fetch(request)
@@ -10,9 +13,6 @@ function http<T>(request: RequestInfo): Promise<T> {
       return response.json();
     })
     .catch((error) => {
-      if (error.response && error.response.status && error.response.status === 403) {
-        console.log('無權限');
-      }
       console.log(error);
     });
 }
@@ -25,51 +25,80 @@ function get<T>(path: string, args: RequestInit = {}): Promise<T> {
   return http<T>(new Request(`${path}`, args));
 }
 
-interface CodeStatus {
-  code: number;
+interface MaintainResponse {
+  page: any;
+  scheduled_maintenances: ScheduledMaintenance[];
 }
 
-interface MaintenRes extends CodeStatus {
-  scheduled_maintenances: MaintenData[];
+interface ScheduledMaintenance {
+  id: string;
+  name: string;
+  status: IncidentUpdateStatus;
+  created_at: Date;
+  updated_at: Date;
+  monitoring_at: null;
+  resolved_at: Date;
+  impact: string;
+  shortlink: string;
+  started_at: Date;
+  page_id: string;
+  incident_updates: IncidentUpdate[];
+  components: [];
+  scheduled_for: Date;
+  scheduled_until: Date;
 }
 
-interface StatusData {
-  status: string;
+enum IncidentUpdateStatus {
+  Completed = 'completed',
+  InProgress = 'in_progress',
+  Scheduled = 'scheduled',
+}
+
+interface IncidentUpdate {
+  id: string;
+  status: IncidentUpdateStatus;
   body: string;
-  display_at: string;
+  incident_id: string;
+  created_at: Date;
+  updated_at: Date;
+  display_at: Date;
+  affected_components: null;
+  deliver_notifications: boolean;
+  custom_tweet: null;
+  tweet_id: number | null;
 }
 
-interface MaintenData {
-  name: string; // Title
-  updated_at: string; // 最後更新日期
-  shortlink: string; // source link
-  incident_updates: StatusData[];
-}
-
-const fetchScheduledMaintenances = (): void => {
-  const maintenUrl = 'https://www.githubstatus.com/api/v2/scheduled-maintenances.json';
-  get<MaintenRes>(maintenUrl).then((response) => {
-    console.log(response.scheduled_maintenances);
+const fetchScheduledMaintain = () => {
+  const API_PATH = `${import.meta.env.VITE_API_HOSTNAME}${
+    import.meta.env.VITE_SCHEDULED_MAINTENANCES
+  }.json`;
+  get<MaintainResponse>(API_PATH).then((response) => {
+    const { scheduled_maintenances } = response;
+    const filterMaintainData = () => scheduled_maintenances.filter((item) => item.id === activeId);
+    renderMaintainInfo.value = filterMaintainData();
   });
 };
 
 onMounted(() => {
-  fetchScheduledMaintenances();
+  fetchScheduledMaintain();
 });
 </script>
 
 <template>
   <main class="container mx-auto mt-12 prose prose-sm grow">
-    <h1 class="text-center tracking-wide">GitHub Importer Maintenance</h1>
-    <h3 class="text-center tracking-wider mt-6 font-normal">
-      Scheduled Maintenance Report for GitHub
-    </h3>
+    <div v-for="(item, index) in renderMaintainInfo" :key="index">
+      <h1 class="text-center tracking-wide">{{ item?.name }}</h1>
+      <h3 class="text-center tracking-wider mt-6 font-normal">
+        Scheduled Maintenance Report for GitHub
+      </h3>
+    </div>
+
     <article class="flex mx-auto mt-12 md:max-w-lg">
       <section class="flex-auto w-1/3 text-center font-bold">
         <span>Completed</span>
       </section>
       <section class="flex-auto w-2/3">
-        <span>The scheduled maintenance has been completed.</span>
+        <span>The scheduled Maintainance has been completed.</span>
         <div class="text-xs text-base-content">
           Posted<span> 6</span> months ago.
           <time class="text-primary">Feb 09, 2023 - 09:09 UTC</time>
