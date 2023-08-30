@@ -1,29 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { get } from '@/helpers/fetch';
+import NavBar from '@/components/NavBar.vue';
 
 const renderMaintainInfo = ref<ScheduledMaintenance[]>([]);
 const activeId = '3ktldkb3r6f8';
-
-function http<T>(request: RequestInfo): Promise<T> {
-  return fetch(request)
-    .then((response: Response) => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-function get<T>(path: string, args: RequestInit = {}): Promise<T> {
-  args.method = 'get';
-  args.headers = {
-    'Content-Type': 'application/json',
-  };
-  return http<T>(new Request(`${path}`, args));
-}
 
 interface MaintainResponse {
   page: any;
