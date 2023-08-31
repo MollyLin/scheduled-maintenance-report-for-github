@@ -9,15 +9,22 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:vue/vue3-essential',
-    '@vue/eslint-config-airbnb-with-typescript',
+    'plugin:@typescript-eslint/recommended',
   ],
+  plugins: ['@typescript-eslint'],
+  parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
-    ecmaVersion: 'latest',
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
+    extraFileExtensions: ['.vue'],
   },
   rules: {
     'no-console': 'off',
-    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['args'] }],
+    'no-param-reassign': [
+      'error',
+      { props: true, ignorePropertyModificationsFor: ['args'] },
+    ],
     '@typescript-eslint/naming-convention': [
       'error',
       {
@@ -27,4 +34,21 @@ module.exports = {
       },
     ],
   },
+  settings: {
+    'import/resolver': {
+      'eslint-import-resolver-custom-alias': {
+        alias: {
+          '@': './src',
+          '@types': './src/types',
+        },
+        extensions: ['.js', '.ts', '.vue'],
+      },
+    },
+  },
+  ignorePatterns: [
+    'vite.config.ts',
+    'env.d.ts',
+    'tailwind.config.js',
+    'postcss.config.js',
+  ],
 };
