@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { get } from '@/helpers/fetch';
-import NavBar from '@/components/NavBar.vue';
+import { get } from '@helpers/fetch.ts';
 
 const renderMaintainInfo = ref<ScheduledMaintenance[]>([]);
 const activeId = '3ktldkb3r6f8';

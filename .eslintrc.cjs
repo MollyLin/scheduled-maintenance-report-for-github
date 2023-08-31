@@ -17,10 +17,7 @@ module.exports = {
   },
   rules: {
     'no-console': 'off',
-    'no-param-reassign': [
-      'error',
-      { props: true, ignorePropertyModificationsFor: ['args'] },
-    ],
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['args'] }],
     '@typescript-eslint/naming-convention': [
       'error',
       {
