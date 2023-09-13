@@ -1,21 +1,25 @@
 <script setup lang="ts">
+import { IncidentUpdate } from '@/types/ApiData';
+
 defineProps<{
-  status: string;
-  body: string;
-  display_at: Date;
+  maintainContent: IncidentUpdate[];
 }>();
 </script>
 
 <template>
-  <article class="flex mx-auto mt-12 md:max-w-lg">
+  <article
+    class="flex mx-auto mt-12 md:max-w-lg"
+    v-for="(item, index) in maintainContent"
+    :key="index"
+  >
     <section class="flex-auto w-1/3 text-center font-bold">
-      <span>{{ status }}</span>
+      <span>{{ item.status }}</span>
     </section>
     <section class="flex-auto w-2/3">
-      <span>{{ body }}</span>
+      <span>{{ item.body }}</span>
       <div class="text-xs text-base-content">
         Posted<span> 6</span> months ago.
-        <time class="text-primary">{{ display_at }}</time>
+        <time class="text-primary">{{ item.display_at }}</time>
       </div>
     </section>
   </article>

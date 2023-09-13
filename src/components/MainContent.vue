@@ -5,9 +5,8 @@ import { MaintainResponse, ScheduledMaintenance, IncidentUpdate } from '@/types/
 import ImporterMaintenanceContent from '@/components/ImporterMaintenanceContent.vue';
 
 const renderMaintainBlock = ref<ScheduledMaintenance[]>();
-const renderMaintainContent = ref<IncidentUpdate[]>();
+const renderMaintainContent = ref<IncidentUpdate[]>([]);
 const activeId = '3ktldkb3r6f8';
-const errMsg = ref();
 const API_URL = toValue(
   ref(`${import.meta.env.VITE_API_HOSTNAME}${import.meta.env.VITE_SCHEDULED_MAINTENANCES}.json`),
 );
@@ -46,12 +45,6 @@ onMounted(async () => {
         Scheduled Maintenance Report for GitHub
       </h3>
     </div>
-    <ImporterMaintenanceContent
-      v-for="item in renderMaintainContent"
-      :key="item.id"
-      :status="item.status"
-      :body="item.body"
-    />
-    {{ errMsg }}
+    <ImporterMaintenanceContent :maintain-content="renderMaintainContent" />
   </main>
 </template>
