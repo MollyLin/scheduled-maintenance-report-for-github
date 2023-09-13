@@ -1,24 +1,40 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, toValue } from 'vue';
 import { get } from '@helpers/fetch.ts';
-import { MaintainResponse, ScheduledMaintenance } from '@/types/ApiData';
+import { MaintainResponse, ScheduledMaintenance, IncidentUpdate } from '@/types/ApiData';
 import ImporterMaintenanceContent from '@/components/ImporterMaintenanceContent.vue';
 
-const renderMaintainBlock = ref<ScheduledMaintenance[]>([]);
+const renderMaintainBlock = ref<ScheduledMaintenance[]>();
+const renderMaintainContent = ref<IncidentUpdate[]>();
 const activeId = '3ktldkb3r6f8';
+const errMsg = ref();
+const API_URL = toValue(
+  ref(`${import.meta.env.VITE_API_HOSTNAME}${import.meta.env.VITE_SCHEDULED_MAINTENANCES}.json`),
+);
 
-const fetchScheduledMaintain = () => {
-  const API_PATH = `${import.meta.env.VITE_API_HOSTNAME}${
-    import.meta.env.VITE_SCHEDULED_MAINTENANCES
-  }.json`;
-  get<MaintainResponse>(API_PATH).then((response) => {
-    const { scheduled_maintenances } = response;
-    renderMaintainBlock.value = scheduled_maintenances.filter((item) => item.id === activeId);
-  });
+const setMaintainContent = (res: ScheduledMaintenance[]): IncidentUpdate[] =>
+  (renderMaintainContent.value = res[0].incident_updates);
+
+const setMaintainTitle = (res: ScheduledMaintenance[]): ScheduledMaintenance[] =>
+  res.filter((item) => item.id === activeId);
+
+const setMaintainGroup = (res: MaintainResponse) => {
+  const { scheduled_maintenances } = res;
+  renderMaintainBlock.value = setMaintainTitle(scheduled_maintenances);
+  return renderMaintainBlock.value;
 };
 
-onMounted(() => {
-  fetchScheduledMaintain();
+const fetchScheduledMaintain = () => {
+  get<MaintainResponse>(API_URL)
+    .then((res) => setMaintainGroup(res))
+    .then((res) => setMaintainContent(res))
+    .catch((error: Error) => {
+      console.log(error);
+    });
+};
+
+onMounted(async () => {
+  await fetchScheduledMaintain();
 });
 </script>
 
@@ -30,6 +46,12 @@ onMounted(() => {
         Scheduled Maintenance Report for GitHub
       </h3>
     </div>
-    <ImporterMaintenanceContent :maintain-block="renderMaintainBlock" />
+    <ImporterMaintenanceContent
+      v-for="item in renderMaintainContent"
+      :key="item.id"
+      :status="item.status"
+      :body="item.body"
+    />
+    {{ errMsg }}
   </main>
 </template>
