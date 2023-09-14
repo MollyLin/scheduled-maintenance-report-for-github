@@ -11,7 +11,15 @@ const API_URL = toValue(
   ref(`${import.meta.env.VITE_API_HOSTNAME}${import.meta.env.VITE_SCHEDULED_MAINTENANCES}.json`),
 );
 
-const formatStatusText = (status: string) => status.toUpperCase();
+const formatStatusText = (status: string) => {
+  // 將字串以底線分割成陣列
+  const words = status.split('_');
+  // 首字母大寫化第一個單字，其餘保留小寫，再合併成一個新的字串
+  const formattedString = words
+    .map((word, index) => (index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word))
+    .join(' ');
+  return formattedString;
+};
 
 const timeFormat: Intl.DateTimeFormatOptions = {
   month: 'short',
