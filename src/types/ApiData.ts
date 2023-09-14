@@ -47,4 +47,6 @@ export interface IncidentUpdate {
   deliver_notifications: boolean;
   custom_tweet: null;
   tweet_id: number | null;
+  formatStatus: string;
+  formatDisplayTime: string;
 }

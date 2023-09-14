@@ -6,13 +6,40 @@ import ImporterMaintenanceContent from '@/components/ImporterMaintenanceContent.
 
 const renderMaintainBlock = ref<ScheduledMaintenance[]>();
 const renderMaintainContent = ref<IncidentUpdate[]>([]);
-const activeId = '3ktldkb3r6f8';
+const activeId = 'lpslbfcw2czs';
 const API_URL = toValue(
   ref(`${import.meta.env.VITE_API_HOSTNAME}${import.meta.env.VITE_SCHEDULED_MAINTENANCES}.json`),
 );
 
-const setMaintainContent = (res: ScheduledMaintenance[]): IncidentUpdate[] =>
-  (renderMaintainContent.value = res[0].incident_updates);
+const formatStatusText = (status: string) => status.toUpperCase();
+
+const timeFormat: Intl.DateTimeFormatOptions = {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  hour12: false,
+  timeZone: 'UTC',
+  timeZoneName: 'short',
+};
+
+const formatDisplayDate = (display: Date) =>
+  new Intl.DateTimeFormat('en-US', timeFormat).format(new Date(display));
+
+const setFormattedContent = (item: IncidentUpdate) => {
+  const originalContent = { ...item };
+  originalContent.formatStatus = formatStatusText(item.status);
+  originalContent.formatDisplayTime = formatDisplayDate(item.display_at);
+  return originalContent;
+};
+
+const setMaintainContent = (res: ScheduledMaintenance[]) => {
+  const originMaintainContent = res[0].incident_updates;
+  renderMaintainContent.value = originMaintainContent.map((item) => {
+    return setFormattedContent(item);
+  });
+};
 
 const setMaintainTitle = (res: ScheduledMaintenance[]): ScheduledMaintenance[] =>
   res.filter((item) => item.id === activeId);

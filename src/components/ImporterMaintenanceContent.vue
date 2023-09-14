@@ -13,13 +13,13 @@ defineProps<{
     :key="index"
   >
     <section class="flex-auto w-1/3 text-center font-bold">
-      <span>{{ item.status }}</span>
+      <span>{{ item.formatStatus }}</span>
     </section>
     <section class="flex-auto w-2/3">
       <span>{{ item.body }}</span>
       <div class="text-xs text-base-content">
         Posted<span> 6</span> months ago.
-        <time class="text-primary">{{ item.display_at }}</time>
+        <time class="text-primary">{{ item.formatDisplayTime }}</time>
       </div>
     </section>
   </article>
