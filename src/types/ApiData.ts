@@ -40,13 +40,14 @@ export interface IncidentUpdate {
   status: IncidentUpdateStatus;
   body: string;
   incident_id: string;
-  created_at: Date;
-  updated_at: Date;
-  display_at: Date;
+  created_at: string;
+  updated_at: string;
+  display_at: string;
   affected_components: null;
   deliver_notifications: boolean;
   custom_tweet: null;
   tweet_id: number | null;
   formatStatus: string;
   formatDisplayTime: string;
+  renderPostDayFromNow: number;
 }

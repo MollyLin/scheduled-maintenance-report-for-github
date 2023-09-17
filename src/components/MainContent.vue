@@ -6,10 +6,21 @@ import ImporterMaintenanceContent from '@/components/ImporterMaintenanceContent.
 
 const renderMaintainBlock = ref<ScheduledMaintenance[]>();
 const renderMaintainContent = ref<IncidentUpdate[]>([]);
+const renderPostDayFromNow = ref(0);
 const activeId = 'lpslbfcw2czs';
 const API_URL = toValue(
   ref(`${import.meta.env.VITE_API_HOSTNAME}${import.meta.env.VITE_SCHEDULED_MAINTENANCES}.json`),
 );
+
+const getPostDayFromNow = (postDate: string): number => {
+  const getPostDate = new Date(postDate).getTime();
+  const getToday = new Date().getTime();
+  let diff = getToday - getPostDate;
+  const millisecondsInDay = 8640000;
+  const days = Math.trunc(diff / millisecondsInDay);
+  diff -= days * millisecondsInDay;
+  return days;
+};
 
 const formatStatusText = (status: string) => {
   // 將字串以底線分割成陣列
@@ -32,13 +43,14 @@ const timeFormat: Intl.DateTimeFormatOptions = {
   timeZoneName: 'short',
 };
 
-const formatDisplayDate = (display: Date) =>
-  new Intl.DateTimeFormat('en-US', timeFormat).format(new Date(display));
+const formatDisplayDate = (display: string) =>
+  new Date(display).toLocaleString('en-us', timeFormat);
 
 const setFormattedContent = (item: IncidentUpdate) => {
   const originalContent = { ...item };
   originalContent.formatStatus = formatStatusText(item.status);
   originalContent.formatDisplayTime = formatDisplayDate(item.display_at);
+  renderPostDayFromNow.value = getPostDayFromNow(item.display_at);
   return originalContent;
 };
 
@@ -80,6 +92,9 @@ onMounted(async () => {
         Scheduled Maintenance Report for GitHub
       </h3>
     </div>
-    <ImporterMaintenanceContent :maintain-content="renderMaintainContent" />
+    <ImporterMaintenanceContent
+      :maintain-content="renderMaintainContent"
+      :get-post-day-from-now="renderPostDayFromNow"
+    />
   </main>
 </template>
