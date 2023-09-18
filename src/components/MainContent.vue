@@ -87,7 +87,7 @@ onMounted(async () => {
 <template>
   <main class="container mx-auto mt-12 prose prose-sm grow">
     <div v-for="(item, index) in renderMaintainBlock" :key="index">
-      <h1 class="text-center tracking-wide text-primary">{{ item?.name }}</h1>
+      <h1 class="text-center tracking-wide text-accent">{{ item?.name }}</h1>
       <h3 class="text-center tracking-wider mt-6 font-normal text-secondary">
         Scheduled Maintenance Report for GitHub
       </h3>

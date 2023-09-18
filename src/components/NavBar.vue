@@ -8,7 +8,7 @@
     <div class="flex-none">
       <ul class="menu menu-horizontal px-1">
         <li><a href="https://github.com/">GitHub.com</a></li>
-        <li class="text-warning">
+        <li class="text-accent">
           <a href="https://www.githubstatus.com/">Status</a>
         </li>
       </ul>
