@@ -13,14 +13,14 @@ defineProps<{
     v-for="(item, index) in maintainContent"
     :key="index"
   >
-    <section class="flex-auto w-1/3 text-center font-bold">
+    <section class="flex-auto w-1/3 text-center text-lg text-white">
       <span>{{ item.formatStatus }}</span>
     </section>
     <section class="flex-auto w-2/3">
       <span>{{ item.body }}</span>
-      <div class="text-xs text-base-content">
-        Posted <span> {{ getPostDayFromNow }}</span> days ago.
-        <time class="text-primary">{{ item.formatDisplayTime }}</time>
+      <div class="text-xs text-base-content text-slate-400">
+        Posted <span class="badge badge-outline badge-xs"> {{ getPostDayFromNow }}</span> days ago.
+        <time>{{ item.formatDisplayTime }}</time>
       </div>
     </section>
   </article>
