@@ -49,5 +49,4 @@ export interface IncidentUpdate {
   tweet_id: number | null;
   formatStatus: string;
   formatDisplayTime: string;
-  renderPostDayFromNow: number;
 }
