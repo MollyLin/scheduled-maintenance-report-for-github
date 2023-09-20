@@ -1,20 +1,41 @@
 <script setup lang="ts">
-import Navbar from '@/components/NavBar.vue';
-import MainContent from '@/components/MainContent.vue';
+import { onErrorCaptured } from 'vue';
+import Loading from '@/views/LoadingView.vue';
+
+onErrorCaptured((error) => {
+  console.log('其他的錯誤處理：', error);
+});
 </script>
 
 <template>
   <div class="flex flex-col h-screen">
-    <Navbar />
-    <MainContent />
-    <footer
-      class="footer footer-center p-4 bg-base-300 text-base-content mt-24"
-    >
-      <div>
-        <p>© 2023 GitHub, Inc.</p>
-      </div>
-    </footer>
+    <RouterView v-slot="{ Component }">
+      <Suspense timeout="0">
+        <template #default>
+          <component :is="Component" :time="5000"></component>
+        </template>
+        <template #fallback>
+          <Loading />
+        </template>
+      </Suspense>
+    </RouterView>
   </div>
 </template>
 
-<style scoped></style>
+<style scope>
+#app {
+  font-family: Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
