@@ -1,26 +1,32 @@
-<script setup lang="ts">
-import { onMounted, ref, toValue } from 'vue';
-import { get } from '@helpers/fetch.ts';
+<script async setup lang="ts">
+import { ref, toValue } from 'vue';
+import { get } from '@/helpers/fetch.ts';
 import { MaintainResponse, ScheduledMaintenance, IncidentUpdate } from '@/types/ApiData';
+import Navbar from '@/components/NavBar.vue';
 import ImporterMaintenanceContent from '@/components/ImporterMaintenanceContent.vue';
+import Footer from '@/views/FooterView.vue';
+import Placeholder from '@/views/LoadingSkeleton.vue';
+
+const { time } = defineProps({
+  time: { type: Number },
+});
+
+const promise = (time: number) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+
+await promise(time);
 
 const renderMaintainBlock = ref<ScheduledMaintenance[]>();
 const renderMaintainContent = ref<IncidentUpdate[]>([]);
-const renderPostDayFromNow = ref(0);
 const activeId = 'lpslbfcw2czs';
 const API_URL = toValue(
   ref(`${import.meta.env.VITE_API_HOSTNAME}${import.meta.env.VITE_SCHEDULED_MAINTENANCES}.json`),
 );
-
-const getPostDayFromNow = (postDate: string): number => {
-  const getPostDate = new Date(postDate).getTime();
-  const getToday = new Date().getTime();
-  let diff = getToday - getPostDate;
-  const millisecondsInDay = 8640000;
-  const days = Math.trunc(diff / millisecondsInDay);
-  diff -= days * millisecondsInDay;
-  return days;
-};
 
 const formatStatusText = (status: string) => {
   // 將字串以底線分割成陣列
@@ -50,7 +56,6 @@ const setFormattedContent = (item: IncidentUpdate) => {
   const originalContent = { ...item };
   originalContent.formatStatus = formatStatusText(item.status);
   originalContent.formatDisplayTime = formatDisplayDate(item.display_at);
-  renderPostDayFromNow.value = getPostDayFromNow(item.display_at);
   return originalContent;
 };
 
@@ -79,22 +84,32 @@ const fetchScheduledMaintain = () => {
     });
 };
 
-onMounted(async () => {
-  await fetchScheduledMaintain();
-});
+await fetchScheduledMaintain();
 </script>
 
 <template>
-  <main class="container mx-auto mt-12 prose prose-sm grow">
+  <Navbar />
+  <main class="container mx-auto mt-12 px-2 prose prose-sm grow" v-cloak>
     <div v-for="(item, index) in renderMaintainBlock" :key="index">
       <h1 class="text-center tracking-wide text-accent">{{ item?.name }}</h1>
       <h3 class="text-center tracking-wider mt-6 font-normal text-secondary">
         Scheduled Maintenance Report for GitHub
       </h3>
     </div>
-    <ImporterMaintenanceContent
-      :maintain-content="renderMaintainContent"
-      :get-post-day-from-now="renderPostDayFromNow"
-    />
+    <Suspense>
+      <template #default>
+        <ImporterMaintenanceContent :maintain-content="renderMaintainContent" />
+      </template>
+      <template #fallback>
+        <Placeholder />
+      </template>
+    </Suspense>
   </main>
+  <Footer></Footer>
 </template>
+
+<style scoped>
+[v-cloak] {
+  display: none;
+}
+</style>
