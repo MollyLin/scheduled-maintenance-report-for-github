@@ -7,20 +7,6 @@ import ImporterMaintenanceContent from '@/components/ImporterMaintenanceContent.
 import Footer from '@/views/FooterView.vue';
 import Placeholder from '@/views/LoadingSkeleton.vue';
 
-const { time } = defineProps({
-  time: { type: Number },
-});
-
-const promise = (time: number) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
-};
-
-await promise(time);
-
 const renderMaintainBlock = ref<ScheduledMaintenance[]>();
 const renderMaintainContent = ref<IncidentUpdate[]>([]);
 const activeId = 'lpslbfcw2czs';

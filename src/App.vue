@@ -12,7 +12,7 @@ onErrorCaptured((error) => {
     <RouterView v-slot="{ Component }">
       <Suspense timeout="0">
         <template #default>
-          <component :is="Component" :time="5000"></component>
+          <component :is="Component"></component>
         </template>
         <template #fallback>
           <Loading />
