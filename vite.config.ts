@@ -1,12 +1,11 @@
 import vue from '@vitejs/plugin-vue';
 import eslintPlugin from 'vite-plugin-eslint';
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
-export default ({ mode }) => {
-  process.env = Object.assign(process.env, loadEnv(mode, process.cwd(), ''));
+export default () => {
   return defineConfig({
-    base: process.env.BASE_URL,
+    base: '/scheduled-maintenance-report-for-github',
     plugins: [vue(), eslintPlugin()],
     resolve: {
       alias: {
