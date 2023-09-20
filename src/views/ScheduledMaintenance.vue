@@ -5,7 +5,6 @@ import { MaintainResponse, ScheduledMaintenance, IncidentUpdate } from '@/types/
 import Navbar from '@/components/NavBar.vue';
 import ImporterMaintenanceContent from '@/components/ImporterMaintenanceContent.vue';
 import Footer from '@/views/FooterView.vue';
-import Placeholder from '@/views/LoadingSkeleton.vue';
 
 const renderMaintainBlock = ref<ScheduledMaintenance[]>();
 const renderMaintainContent = ref<IncidentUpdate[]>([]);
@@ -82,14 +81,7 @@ await fetchScheduledMaintain();
         Scheduled Maintenance Report for GitHub
       </h3>
     </div>
-    <Suspense>
-      <template #default>
-        <ImporterMaintenanceContent :maintain-content="renderMaintainContent" />
-      </template>
-      <template #fallback>
-        <Placeholder />
-      </template>
-    </Suspense>
+    <ImporterMaintenanceContent :maintain-content="renderMaintainContent" />
   </main>
   <Footer></Footer>
 </template>
