@@ -9,16 +9,16 @@ onErrorCaptured((error) => {
 
 <template>
   <div class="flex flex-col h-screen">
-    <RouterView v-slot="{ Component }">
-      <Suspense timeout="0">
+    <router-view v-slot="{ Component }">
+      <suspense v-if="Component">
         <template #default>
           <component :is="Component"></component>
         </template>
         <template #fallback>
           <Loading />
         </template>
-      </Suspense>
-    </RouterView>
+      </suspense>
+    </router-view>
   </div>
 </template>
 
@@ -29,6 +29,13 @@ onErrorCaptured((error) => {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 1s ease;
@@ -37,5 +44,18 @@ onErrorCaptured((error) => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>

@@ -1,7 +1,5 @@
 <template>
-  <main class="container m-auto">
-    <div class="flex justify-center items-center">
-      <span class="loading loading-spinner loading-lg text-error"></span>
-    </div>
+  <main class="container grow max-h-screen flex">
+    <span class="m-auto loading loading-spinner text-error loading-lg"></span>
   </main>
 </template>
