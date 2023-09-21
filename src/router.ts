@@ -1,13 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Main from '@/views/ScheduledMaintenance.vue';
+import Main from '@/views/MainView.vue';
+import Home from '@/views/HomeView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: `/`,
-      name: 'home',
+      name: 'main',
       component: Main,
+    },
+    {
+      path: '/actions',
+      name: 'Home',
+      component: Home,
     },
   ],
 });

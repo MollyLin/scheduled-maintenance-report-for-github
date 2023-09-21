@@ -2,9 +2,7 @@
 import { ref, toValue } from 'vue';
 import { get } from '@/helpers/fetch.ts';
 import { MaintainResponse, ScheduledMaintenance, IncidentUpdate } from '@/types/ApiData';
-import Navbar from '@/components/NavBar.vue';
 import ImporterMaintenanceContent from '@/components/ImporterMaintenanceContent.vue';
-import Footer from '@/views/FooterView.vue';
 
 const renderMaintainBlock = ref<ScheduledMaintenance[]>();
 const renderMaintainContent = ref<IncidentUpdate[]>([]);
@@ -68,26 +66,14 @@ const fetchScheduledMaintain = () => {
       console.log(error);
     });
 };
-
 await fetchScheduledMaintain();
 </script>
-
 <template>
-  <Navbar />
-  <main class="container mx-auto mt-12 px-2 prose prose-sm grow" v-cloak>
-    <div v-for="(item, index) in renderMaintainBlock" :key="index">
-      <h1 class="text-center tracking-wide text-accent">{{ item?.name }}</h1>
-      <h3 class="text-center tracking-wider mt-6 font-normal text-secondary">
-        Scheduled Maintenance Report for GitHub
-      </h3>
-    </div>
-    <ImporterMaintenanceContent :maintain-content="renderMaintainContent" />
-  </main>
-  <Footer></Footer>
+  <div v-for="(item, index) in renderMaintainBlock" :key="index">
+    <h1 class="text-center tracking-wide text-accent">{{ item?.name }}</h1>
+    <h3 class="text-center tracking-wider mt-6 font-normal text-secondary">
+      Scheduled Maintenance Report for GitHub
+    </h3>
+  </div>
+  <ImporterMaintenanceContent :maintain-content="renderMaintainContent" />
 </template>
-
-<style scoped>
-[v-cloak] {
-  display: none;
-}
-</style>
